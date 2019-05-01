@@ -52,6 +52,7 @@ print("======================================================\n\n")
 
 
 # Install vim-plug package manager
+os.system("mkdir ~/.vim")
 os.system("mkdir ~/.vim/autoload")
 os.system("curl -JLO https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim")
 os.system("mv plug.vim ~/.vim/autoload/plug.vim")
