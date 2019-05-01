@@ -13,6 +13,7 @@ packages = [
     "curl",
     "gdb",
     "tmux",
+    "vim"
 ]
 
 for package in packages:
