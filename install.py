@@ -18,7 +18,7 @@ packages = [
 
 for package in packages:
     print("\n\nInstalling {0}...".format(package))
-    os.system("sudo apt install {0} -y".format(package))
+    os.system("sudo apt install -y {0} ".format(package))
 
 
 # === DOTFILES ===
@@ -38,9 +38,10 @@ dotfiles = [
 ]
 
 os.system("mkdir ~/.bash")
+os.system("mv ~/.bashrc ~/.bashrc_default")
 
 for dotfile in dotfiles:
-    os.system("cp {1}/{2} {0}/{2}")
+    os.system("cp {1}/{2} {0}/{2}".format(dotfile[0], dotfile[1], dotfile[2]))
 
 
 # === VIM ===
