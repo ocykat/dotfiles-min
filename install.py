@@ -18,7 +18,7 @@ packages = [
 
 for package in packages:
     print("\n\nInstalling {0}...".format(package))
-    os.system("sudo apt install {0}".format(package))
+    os.system("sudo apt install {0} -y".format(package))
 
 
 # === DOTFILES ===
