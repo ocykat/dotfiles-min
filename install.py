@@ -1,19 +1,31 @@
 import os
 
 
-# === PACKAGES ===
+def copy_dotfiles(dotfiles, abs_dir='~'):
+    for x in dotfiles:
+        if x[0] == '':
+            os.system("mkdir -p {0}".format(abs_dir))
+            os.system("cp {1}/{2} {0}/{2}".format(abs_dir, x[1], x[2]))
+        else:
+            os.system("mkdir -p {0}/{1}".format(abs_dir, x[0]))
+            os.system("cp {2}/{3} {0}/{1}/{3}".format(abs_dir, x[0], x[1], x[2]))
 
-print("======================================================")
-print("==================Installing packages=================")
-print("======================================================\n\n")
+
+# === PACKAGES ===
+print("=============== INSTALLING PACKAGES =================")
 
 packages = [
     "build-essential",
     "checkinstall",
+    "cmake",
     "curl",
+    "dkms",
     "gdb",
+    "kernel-package",
+    "python3-dev",
     "tmux",
-    "vim"
+    "vim",
+    "xfce4-terminal"
 ]
 
 for package in packages:
@@ -22,51 +34,55 @@ for package in packages:
 
 
 # === DOTFILES ===
+print("=============== COPYING DOTFILES =================")
 
-print("======================================================")
-print("====================Copying dotfiles==================")
-print("======================================================\n\n")
-
-# Copy dotfiles
-
-dotfiles = [
-    ['~'       , 'bash' , '.bashrc'       ] ,
-    ['~/.bash' , 'bash' , '.bash_prompt'  ] ,
-    ['~/.bash' , 'bash' , '.bash_profile' ] ,
-    ['~'       , 'vim'  , '.vimrc'        ] ,
-    ['~'       , 'tmux' , '.tmux.conf'    ] ,
-]
-
-os.system("mkdir ~/.bash")
+# Bash
+print("-> Bash...")
 os.system("mv ~/.bashrc ~/.bashrc_default")
 
-for dotfile in dotfiles:
-    os.system("cp {1}/{2} {0}/{2}".format(dotfile[0], dotfile[1], dotfile[2]))
+bash_dotfiles = [
+    [''      , 'bash' , '.bashrc'            ] ,
+    ['.bash' , 'bash' , '.bash_prompt'       ] ,
+    ['.bash' , 'bash' , '.bash_profile'      ]
+]
 
+copy_dotfiles(bash_dotfiles, abs_dir='~')
 
-# === VIM ===
+print("-> Vim...")
+vim_dotfiles_0 = [
+    ['', 'vim', '.vimrc']
+]
+copy_dotfiles(vim_dotfiles_0, abs_dir='~')
 
-print("======================================================")
-print("====================Setting up Vim====================")
-print("======================================================\n\n")
+vim_dotfiles_1 = [
+    ['autoload'   , 'vim'       , 'plug.vim'           ] ,
+    ['custom/ycm' , 'vim'       , '.ycm_extra_conf.py' ] ,
+    ['vimrc'      , 'vim/vimrc' , 'plugins.vim' ]
+]
+copy_dotfiles(vim_dotfiles_1, abs_dir='~/.vim')
 
-
-# Install vim-plug package manager
-os.system("mkdir ~/.vim")
-os.system("mkdir ~/.vim/autoload")
-os.system("curl -JLO https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim")
-os.system("mv plug.vim ~/.vim/autoload/plug.vim")
-
-# Install packages
 os.system("vim +PlugInstall +qall")
 
+vim_dotfiles_2 = [
+    ['' , 'vim/vimrc' , 'editor.vim'   ] ,
+    ['' , 'vim/vimrc' , 'keymap.vim'   ] ,
+    ['' , 'vim/vimrc' , 'specific.vim' ] ,
+    ['' , 'vim/vimrc' , 'theme.vim'    ]
+]
+copy_dotfiles(vim_dotfiles_2, abs_dir='~/.vim/vimrc')
 
-# === XFCE4-terminal ===
+print("-> Tmux...")
+tmux_dotfiles = [
+    ['', 'tmux', '.tmux.conf']
+]
+copy_dotfiles(tmux_dotfiles, abs_dir='~')
 
-print("======================================================")
-print("============Setting up XFCE4-Terminal ===============")
-print("=====================================================\n\n")
+print("-> XFCE4 terminal...")
+xfce4term_dotfiles = [
+    ['colorschemes' , 'xfce4-terminal' , 'onedark.theme' ] ,
+    [''             , 'xfce4-terminal' , 'terminalrc'    ]
+]
+copy_dotfiles(xfce4term_dotfiles, abs_dir='~/.config/xfce4/terminal')
 
-xfce4_color_dir = "~/.config/xfce4/terminal/colorschemes"
-os.system("mkdir {0}".format(xfce4_color_dir))
-os.system("cp xfce4-terminal/onedark.theme {0}/onedark.theme".format(xfce4_color_dir))
+print("You may want to reload xfce4-terminal now...")
+print("Done")

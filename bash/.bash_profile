@@ -6,13 +6,13 @@ export PATH="$HOME/bin:$PATH";
 # * ~/.bash_extra: used for other settings you don’t want to commit.
 # * ~/.bash_path: used to extend `$PATH`.
 # * ~/.bash_prompt: for prompt
-for file in ~/.bash/.{bash_default,bash_extra,bash_path,bash_prompt}; do
+for file in ~/.bash/.{bash_extra,bash_path,bash_prompt}; do
     [ -r "$file" ] && [ -f "$file" ] && source "$file";
 done;
 unset file;
 
 # Vi mode
-set -o vi
+# set -o vi
 
 # WSL settings
 if grep -q Microsoft /proc/version; then
